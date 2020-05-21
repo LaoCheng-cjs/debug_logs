@@ -68,14 +68,15 @@ router.all('/api/ajaxs', function(req, res, next) {
 // 请求错误打印
 router.all("/api/winErr", function (req, res, next) {
      var params = req.params;
-    store.save("err", [
-      {
-        device: params.device, // 出错是哪个设备
-        uid: params.uid, // 自定义用户浏览器id
-        href: params.href, // 整个域名请求
-        datas: datas, // 请求错误
-      },
-    ]);
+    // store.save("err", [
+    //   {
+    //     device: params.device, // 出错是哪个设备
+    //     uid: params.uid, // 自定义用户浏览器id
+    //     href: params.href, // 整个域名请求
+    //     datas: datas, // 请求错误
+    //   }
+    // ]);
+    res.send({})
 });
 
 // 请求
