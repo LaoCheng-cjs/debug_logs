@@ -4,8 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>debug—api</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <link rel="stylesheet" href="./default.min.css">
 </head>
 <body>
     <div>欢迎使用debug-api</div>
+    <div class="">
+        <div class="code">
+            <pre> </pre>
+        </div>
+    </div>
+    <script src="/jquery.min.js"></script>
+    <script src="./highlight.min.js"></script>
+    <script>
+        $(function () {
+            $.ajax({
+                url: 'http://10.0.3.91:8111/api/winErr',
+            })
+            $('pre code').each(function () {
+                var lines = $(this).text().split('\n').length - 1;
+                var $numbering = $('<ul/>').addClass('pre-numbering');
+                $(this)
+                    .addClass('has-numbering')
+                    .parent()
+                    .append($numbering);
+                for (i = 1; i <= lines; i++) {
+                    $numbering.append($('<li/>').text(i));
+                }
+            });
+            // console.log(,'');
+        })
+    </script>
 </body>
 </html>

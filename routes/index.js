@@ -47,7 +47,7 @@ var store = {
 
 
 /* 请求监控 */
-router.get('/api/ajaxs', function(req, res, next) {
+router.all('/api/ajaxs', function(req, res, next) {
     var params = req.params;
     store.save("request", [
       {
@@ -66,7 +66,7 @@ router.get('/api/ajaxs', function(req, res, next) {
 });
 
 // 请求错误打印
-router.post("/api/winErr", function (req, res, next) {
+router.all("/api/winErr", function (req, res, next) {
      var params = req.params;
     store.save("err", [
       {

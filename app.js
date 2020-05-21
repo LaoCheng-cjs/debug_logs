@@ -6,16 +6,24 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false , }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'view')));
+// 跨域问题
+app.all('*', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type,Content-Length, Authorization,Origin,Accept,X-Requested-With');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Content-Type', 'application/json;charset=utf-8');
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        next();
+    }
+});
 
 app.use('/', indexRouter);
 
