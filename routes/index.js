@@ -3,7 +3,8 @@ var router = express.Router();
 var path = require('path')
 var fs = require('fs')
 var moment = require("moment"),
-    time = moment().format('YYYY-MM-DD')
+    time = moment().format('YYYY-MM-DD');
+
 // 异步存储
 var store = {
     save: function (type, datas) {
@@ -80,5 +81,6 @@ router.all("/api/winErr", function (req, res, next) {
 });
 
 // 请求
+
 
 module.exports = router;

@@ -4,13 +4,23 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+// https://github.com/chimurai/http-proxy-middleware/tree/v0.21.0#readme
+const proxy = require("http-proxy-middleware");
+
+// var indexRouter = require('./routes/index');
 var app = express();
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false , }));
+// app.use(logger('dev'));
+// 在此版本种不能使用：
+// app.use(express.json());
+
+app.use(express.urlencoded({
+    extended: false,
+    limit: '100mb'
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'view')));
+
+
 // 跨域问题
 app.all('*', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
@@ -25,7 +35,16 @@ app.all('*', function (req, res, next) {
     }
 });
 
-app.use('/', indexRouter);
+app.use(
+  "/agent",
+  proxy({ target: "https://test.tope365.com", changeOrigin: true })
+);
+app.use(
+  "/api",
+  proxy({ target: "https://test.tope365.com", changeOrigin: true })
+);
+// app.use('/', indexRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

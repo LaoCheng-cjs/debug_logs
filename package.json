@@ -10,8 +10,12 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "http-proxy": "^1.18.1",
     "jade": "~1.11.0",
     "moment": "^2.25.3",
     "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^0.21.0"
   }
 }

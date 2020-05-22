@@ -9,6 +9,64 @@
             padding: 0;
             margin: 0;
         }
+        /* 去除默认滚动条样式 */
+        ::-webkit-scrollbar {
+            overflow-x:hidden;
+        }
+        li {
+            list-style: none;
+        }
+        .codes-list {
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .codes-list code {
+            padding-left: 16px;
+        }
+        .ios-header {
+            /* height: 102px; */
+            display: flex;
+            background: #1e1e1e;
+            padding: 4px 0 0 12px;
+        }
+        .ios-header:hover .circle svg {
+            display: inline-block;
+        }
+        .ios-header:hover .circle.disable svg {
+            display: none;
+        }
+        .ios-header .circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 100%;
+            overflow: hidden;
+            margin: 0 3px;
+            cursor: pointer;
+        }
+        .ios-header .circle.coloe {
+            background: #fb615f;
+        }
+        .circle.coloe svg {
+            width: 70%;
+            height: 70%;
+            margin: -13px 0 0 2px;
+            display: none;
+        }
+        .ios-header .circle.minimize {
+            background: #fdbf47;
+        }
+        .ios-header .circle.minimize.disable {
+            background: #cfd0d1;
+        }
+        .circle.minimize svg {
+            width: 70%;
+            height: 70%;
+            margin: -13px 0 0 2px;
+            display: none;
+        }
+        .ios-header .circle.maximize {
+            background: #3ad052;
+        }
     </style>
     <link rel="stylesheet" href="./default.min.css">
     <link rel="stylesheet" href="./vs2015.min.css">
@@ -16,10 +74,16 @@
 <body>
     <div>欢迎使用debug-api</div>
     <div class="">
-        <div class="code">
-            <pre>
-                <code class="javascript">var a = 12</code>
-            </pre>
+        <p>代码如下：</p>
+        <div class="codes-list">
+            <div class="ios-header">
+                <div class="coloe circle"><svg class="icon" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6239"><path d="M511.968 376.224 796.096 92.096C833.536 54.624 894.4 54.624 931.84 92.096 969.312 129.568 969.312 190.4 931.84 227.872L647.744 512 931.84 796.096C969.312 833.568 969.312 894.4 931.84 931.872 894.4 969.344 833.536 969.344 796.096 931.872L511.968 647.744 227.84 931.872C190.4 969.344 129.536 969.344 92.096 931.872 54.624 894.4 54.624 833.568 92.096 796.096L376.224 512 92.096 227.872C54.624 190.4 54.624 129.568 92.096 92.096 129.536 54.624 190.4 54.624 227.84 92.096L511.968 376.224Z" p-id="6240"></path></svg></div>
+                <!-- disable -->
+                <div class="minimize circle"><svg class="icon" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6645"><path d="M78.633918 396.690788l858.20393 0 0 158.309562-858.20393 0 0-158.309562Z" p-id="6646"></path></svg></div>
+                <div class="maximize circle"></div>
+            </div>
+            <pre><code class="javascript">var a = 12;
+a = 144</code></pre>
         </div>
     </div>
     <script src="/jquery.min.js"></script>
@@ -29,7 +93,9 @@
     <script>
         $(function () {
             hljs.initHighlighting();
-            // console.log(hljs.registerLanguage('javascript',),'');
+            $("code").each(function () {
+                $(this).html("<ol><li>" + $(this).html().replace(/\n/g, "\n</li><li>") + "\n</li></ol>");
+            });
             // $('pre code').each(function () {
             //     var lines = $(this).text().split('\n').length - 1;
             //     var $numbering = $('<ul/>').addClass('pre-numbering');
@@ -42,6 +108,17 @@
             //     }
             // });
             // console.log(,'');
+            // 
+            $.ajax({
+                url: '',
+                method: 'POST',
+                data: {
+
+                },
+                success() {
+
+                }
+            })
         })
     </script>
     <script src="./javascript.min.js"></script>
