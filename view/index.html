@@ -19,9 +19,22 @@
         .codes-list {
             border-radius: 6px;
             overflow: hidden;
+            position: relative;
         }
         .codes-list code {
             padding-left: 16px;
+        }
+        .codes-list .copy {
+            position: absolute;
+            font-size: 14px;
+            bottom: 5px;
+            right: 12px;
+            color: #fff;
+            cursor: pointer;
+            display: none;
+        }
+        .codes-list:hover .copy {
+            display: block;
         }
         .ios-header {
             /* height: 102px; */
@@ -84,6 +97,7 @@
             </div>
             <pre><code class="javascript">var a = 12;
 a = 144</code></pre>
+                <div class="copy">copy</div>
         </div>
     </div>
     <script src="/jquery.min.js"></script>
