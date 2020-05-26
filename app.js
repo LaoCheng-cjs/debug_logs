@@ -35,14 +35,7 @@ app.all('*', function (req, res, next) {
     }
 });
 
-app.use(
-  "/agent",
-  proxy({ target: "https://test.tope365.com", changeOrigin: true })
-);
-app.use(
-  "/api",
-  proxy({ target: "https://test.tope365.com", changeOrigin: true })
-);
+
 // app.use('/', indexRouter);
 
 

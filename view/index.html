@@ -93,16 +93,10 @@ a = 144</code></pre>
             $("code").each(function () {
                 $(this).html("<ol><li>" + $(this).html().replace(/\n/g, "\n</li><li>") + "\n</li></ol>");
             });
-            // 
             $('.minimize').click(function () {
-                if(!this.clickFlag) {
-                    this.clickFlag = true
-                    $(this).parent().siblings('pre').stop().animate({height: '0'})
-                }else {
-                    $(this).parent().siblings('pre').stop().animate({height: ''})
-                    this.clickFlag = false
-                }
+                $(this).parent().siblings('pre').stop().animate({height: 'toggle'})
             })
+            $('.minimize').eq(0).parent().siblings('pre').delay(500).animate({height: 'toggle'})
             // 绑定复制按钮
             var clipboard = new ClipboardJS('.copy',{
                 text: function(trigger) {
