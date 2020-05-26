@@ -1,0 +1,110 @@
+ * {
+     padding: 0;
+     margin: 0;
+ }
+
+ /* 去除默认滚动条样式 */
+ ::-webkit-scrollbar {
+     overflow-x: hidden;
+ }
+
+ li {
+     list-style: none;
+ }
+
+ .codes-list {
+     border-radius: 6px;
+     overflow: hidden;
+     position: relative;
+ }
+
+ .codes-list code {
+     padding-left: 16px;
+ }
+
+ .codes-list .copy {
+     position: absolute;
+     font-size: 14px;
+     bottom: 5px;
+     right: 12px;
+     color: #fff;
+     cursor: pointer;
+     display: none;
+ }
+
+ .codes-list:hover .copy {
+     display: block;
+ }
+/* 苹果电脑状态栏 */
+ .ios-header {
+     /* height: 102px; */
+     display: flex;
+     background: #1e1e1e;
+     padding: 4px 0 4px 12px;
+ }
+
+ .ios-header:hover .circle svg {
+     display: inline-block;
+ }
+
+ .ios-header:hover .circle.disable svg {
+     display: none;
+ }
+
+ .ios-header .circle {
+     width: 12px;
+     height: 12px;
+     border-radius: 100%;
+     overflow: hidden;
+     margin: 0 3px;
+     cursor: pointer;
+ }
+
+ .ios-header .circle.coloe {
+     background: #fb615f;
+ }
+
+ .circle.coloe svg {
+     width: 70%;
+     height: 70%;
+     margin: -13px 0 0 2px;
+     display: none;
+ }
+
+ .ios-header .circle.minimize {
+     background: #fdbf47;
+ }
+
+ .ios-header .circle.minimize.disable {
+     background: #cfd0d1;
+ }
+
+ .circle.minimize svg {
+     width: 70%;
+     height: 70%;
+     margin: -13px 0 0 2px;
+     display: none;
+ }
+
+ .ios-header .circle.maximize {
+     background: #3ad052;
+ }
+
+ /* 吐司 */
+ .toast {
+     width: 90px;
+     height: 30px;
+     position: fixed;
+     bottom: 22px;
+     left: 0;
+     right: 0;
+     margin: 0 auto;
+     z-index: 999;
+     background-color: rgba(0, 0, 0, 0.8);
+     color: #fff;
+     font-size: 14px;
+     line-height: 30px;
+     text-align: center;
+     border-radius: 8px;
+     display: none;
+ }

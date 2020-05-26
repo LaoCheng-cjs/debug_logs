@@ -14,6 +14,7 @@
  * 后台生成的代码变动的：请求接口地址。
 **/
 (function (window) {
+    
     // 进行初始化下
     var win = window,
         debug = null,
@@ -47,7 +48,6 @@
                     var data = {};
                     //不一定所有浏览器都支持col参数
                     col = col || (window.event && window.event.errorCharacter) || 0;
-
                     data.url = url;
                     data.lineNo = line;
                     data.columnNo = col;
@@ -101,20 +101,21 @@
          * @param {listenerNum}
          * @default {10}
         */
-        addListener(listenerNum) {
+        addRouterListener(listenerNum) {
             this.listenerNum = listenerNum || 10
-            
         },
         /**
          * @abstract window.error错误发送请求次数。
          */
         listenerNum: 10,
         /**
-         * @abstract 
-        **/
-
+         * 
+        */
+        
     }
+    // 初始化
     debug.init()
+    // 
     win.debugLog = debug
         // $.ajax({
         //     url: 'http://10.0.3.91:8111/api/winErr',
