@@ -7,10 +7,29 @@
 var app = require('../app');
 var debug = require('debug')('student-serve:server');
 var http = require('http');
+var open = require("open");
+// 获取命令行参数
+var original = JSON.parse(process.env.npm_config_argv).original,
+  len = original.length,
+  config = {
+    openBrowser: false
+  },
+  argvs = {
+    "--open": function () {
+      config.openBrowser = true;
+    },
+  };
 
+for(var i =0;i<len;i++) {
+    argvs[original[i]] ? argvs[original[i]]() : false;
+}
+
+
+// npm_config_argv
 /**
  * Get port from environment and store in Express.
  */
+
 
 var port = normalizePort(process.env.PORT || '8111');
 app.set('port', port);
@@ -26,7 +45,11 @@ var server = http.createServer(app);
  */
 var IPd = getIPAdress();
 server.listen(port, IPd, function () {
-    console.log("http://" + IPd + ":" + port);
+    var url = "http://" + IPd + ":" + port;
+    console.log(url);
+    if (config.openBrowser) {
+        open(url);
+    }
 });
 server.on('error', onError);
 server.on('listening', onListening);

@@ -80,9 +80,27 @@
         .ios-header .circle.maximize {
             background: #3ad052;
         }
+        /* 吐司 */
+        .toast {
+            width: 90px;
+            height: 30px;
+            position: fixed;
+            bottom: 22px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            z-index: 999;
+            background-color: rgba(0,0,0,0.8);
+            color: #fff;
+            font-size: 14px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 8px;
+            display: none;
+        }
     </style>
-    <link rel="stylesheet" href="./default.min.css">
-    <link rel="stylesheet" href="./vs2015.min.css">
+    <link rel="stylesheet" href="./css/default.min.css">
+    <link rel="stylesheet" href="./css/vs2015.min.css">
 </head>
 <body>
     <div>欢迎使用debug-api</div>
@@ -100,16 +118,44 @@ a = 144</code></pre>
                 <div class="copy">copy</div>
         </div>
     </div>
-    <script src="/jquery.min.js"></script>
-    <script src="./highlight.min.js"></script>
+    <!-- 弹窗 -->
+    <div class="toast"></div>
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/highlight.min.js"></script>
     <!-- 可视化 -->
-    <script src="./echarts.min.js"></script>
+    <script src="./js/echarts.min.js"></script>
+    <script src="./js/javascript.min.js"></script>
+    <script src="./js/clipboard.min.js"></script>
     <script>
         $(function () {
             hljs.initHighlighting();
             $("code").each(function () {
                 $(this).html("<ol><li>" + $(this).html().replace(/\n/g, "\n</li><li>") + "\n</li></ol>");
             });
+            // 绑定复制按钮
+            var clipboard = new ClipboardJS('.copy',{
+                text: function(trigger) {
+                   return $(trigger).siblings('pre').text()
+                }
+            });
+            clipboard.on('success', function(e) {
+                $('.toast').text('复制成功').show()
+                time()
+                e.clearSelection();
+            });
+            clipboard.on('error', function(e) {
+                $('.toast').text('复制失败').show()
+                time()
+                console.error('Action:', e.action);
+                console.error('Trigger:', e.trigger);
+            });
+            let timer = null;
+            function time () {
+                clearTimeout(timer)
+                timer = setTimeout(() => {
+                    $('.toast').hide()
+                },2000)
+            }
             // $('pre code').each(function () {
             //     var lines = $(this).text().split('\n').length - 1;
             //     var $numbering = $('<ul/>').addClass('pre-numbering');
@@ -126,6 +172,5 @@ a = 144</code></pre>
             
         })
     </script>
-    <script src="./javascript.min.js"></script>
 </body>
 </html>

@@ -5,6 +5,7 @@ var fs = require('fs')
 var moment = require("moment"),
     time = moment().format('YYYY-MM-DD');
 
+
 // 异步存储
 var store = {
     save: function (type, datas) {
@@ -45,8 +46,6 @@ var store = {
     }
 }
 
-
-
 /* 请求监控 */
 router.all('/api/ajaxs', function(req, res, next) {
     var params = req.params;
@@ -80,7 +79,11 @@ router.all("/api/winErr", function (req, res, next) {
     res.send({})
 });
 
-// 请求
+// 生成代码
+router.get('setCode', function (req, res, next) {
+    next()
+})
+
 
 
 module.exports = router;
