@@ -104,12 +104,18 @@ router.get('/', function (req, res, next) {
 
 // 生成代码
 router.get('/debug_logs', function (req, res, next) {
-    res.render('debug.ejs', {
+    // 在 ejs 中，如果是使用其他格式，那么就得使用 ejs单独得引入
+    require('ejs').renderFile(path.join(__dirname, '../views/debug.js'), {
         domainName: process.env.serverUrl
+    },{
+    },
+    function (err, str) {
+        if (err) {
+            res.send('页面读取错误')
+        }else {
+            res.send(str)
+        }
     })
-    // req.protocol +'://' + req.hostname + ':' 
-    // console.log(req.client.server._connectionKey, '');
-    // res.send({})
     next()
 })
 

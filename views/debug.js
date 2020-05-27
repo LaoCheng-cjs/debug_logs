@@ -33,17 +33,33 @@
          * @default 
          */
         init(config) {
-            console.log(11111,win);
             listenerNum = this.listenerNum
             // 监听网页
-            win.addEventListener('error', function (msg, url, line, col, error) {
-                console.log(22222,'');
-                // 同一个页面最多上报10次错误，防止某个循环错误页面一直打开，不断的报错
-                if (listenerNum-- < 0) return;
-                //没有URL不上报！上报也不知道错误
-                if (msg != "Script error." && !url) {
-                    return true;
+            win.addEventListener('error', function (event, url, line, col, error) {
+                /*
+                * 1、没有URL不上报！上报也不知道错误
+                * 2、 同一个页面最多上报10次错误， 防止某个循环错误页面一直打开， 不断的报错
+                * 
+                * 如果是对象报错还是代码报错，分两种类
+                */ 
+                if (listenerNum-- < 0 || url) {
+                    return;
                 }
+                console.log(event, 'msg');
+                console.log(url, 'url');
+                console.log(line, 'line');
+                console.log(col, 'col');
+                console.log(error, 'error');
+                console.log("Script error.", '');
+
+                let target = event.target || event.srcElement;
+                let isElementTarget = target instanceof HTMLScriptElement || target instanceof HTMLLinkElement || target instanceof HTMLImageElement;
+                
+
+                return;
+                // if (msg != ) {
+                //     return true;
+                // }
                 setTimeout(function () {
                     var data = {};
                     //不一定所有浏览器都支持col参数
@@ -94,6 +110,16 @@
                     return true;
                 }
             }, true)
+
+            // 全局去捕获promise error
+            window.addEventListener("unhandledrejection", function (e) {
+                e.preventDefault()
+                console.log('我知道 promise 的错误了');
+                console.log(e.reason);
+                return true;
+            }, true);
+            // 
+
         },
         /**
          * @abstract 切换路由时候， 就可以使用这个
