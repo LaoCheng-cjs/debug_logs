@@ -78,9 +78,38 @@ router.all("/api/winErr", function (req, res, next) {
     // ]);
     res.send({})
 });
+// 首页
+router.get('/', function (req, res, next) {
+    res.set('Content-Type', 'text/html')
+    res.render('index.ejs',{
+        url: process.env.serverUrl + '/debug_logs'
+    })
+    // require('ejs').renderFile(path.join(__dirname, '../views/index.ejs'), {
+    //     url: process.env.serverUrl + '/debug_logs'
+    // },{
+    // },
+    // function (err, str) {
+    //     console.log(str, '');
+    //     if (err) {
+    //         res.send('页面读取错误')
+    //     }else {
+    //         res.send(str)
+    //     }
+    // })
+    // req.protocol +'://' + req.hostname + ':' 
+    // console.log(req.client.server._connectionKey, '');
+    // res.send({}) 
+    next()
+})
 
 // 生成代码
-router.get('setCode', function (req, res, next) {
+router.get('/debug_logs', function (req, res, next) {
+    res.render('debug.ejs', {
+        domainName: process.env.serverUrl
+    })
+    // req.protocol +'://' + req.hostname + ':' 
+    // console.log(req.client.server._connectionKey, '');
+    // res.send({})
     next()
 })
 

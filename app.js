@@ -7,7 +7,7 @@ var logger = require('morgan');
 // https://github.com/chimurai/http-proxy-middleware/tree/v0.21.0#readme
 const proxy = require("http-proxy-middleware");
 
-// var indexRouter = require('./routes/index');
+var indexRouter = require('./routes/index');
 var app = express();
 // app.use(logger('dev'));
 // 在此版本种不能使用：
@@ -18,7 +18,8 @@ app.use(express.urlencoded({
     limit: '100mb'
 }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'view')));
+app.use(express.static(path.join(__dirname, 'views')));
+
 
 
 // 跨域问题
@@ -36,13 +37,15 @@ app.all('*', function (req, res, next) {
 });
 
 
-// app.use('/', indexRouter);
+app.use('/', indexRouter);
 
+// app.engine('html', require('ejs').__express);
+app.set('view engine', 'html');
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+// app.use(function(req, res, next) {
+//   next(createError(404));
+// });
 
 // error handler
 app.use(function(err, req, res, next) {

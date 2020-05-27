@@ -30,7 +30,6 @@ for(var i =0;i<len;i++) {
  * Get port from environment and store in Express.
  */
 
-
 var port = normalizePort(process.env.PORT || '8111');
 app.set('port', port);
 
@@ -47,6 +46,7 @@ var IPd = getIPAdress();
 server.listen(port, IPd, function () {
     var url = "http://" + IPd + ":" + port;
     console.log(url);
+    process.env.serverUrl = url
     if (config.openBrowser) {
         open(url);
     }
