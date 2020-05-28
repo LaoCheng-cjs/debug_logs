@@ -81,9 +81,15 @@ router.all("/api/winErr", function (req, res, next) {
 // 首页
 router.get('/', function (req, res, next) {
     res.set('Content-Type', 'text/html')
-    res.render('index.ejs',{
-        url: process.env.serverUrl + '/debug_logs'
+    require('ejs').renderFile(path.join(__dirname, '../views/components/nav.ejs'),{}, function (err, str) {
+        console.log(str);
+        res.render('index.ejs',{
+            url: process.env.serverUrl + '/debug_logs',
+            nav: str
+        })
+        next()
     })
+    
     // require('ejs').renderFile(path.join(__dirname, '../views/index.ejs'), {
     //     url: process.env.serverUrl + '/debug_logs'
     // },{
@@ -99,8 +105,9 @@ router.get('/', function (req, res, next) {
     // req.protocol +'://' + req.hostname + ':' 
     // console.log(req.client.server._connectionKey, '');
     // res.send({}) 
-    next()
+    
 })
+
 router.get('/demo', function (req, res, next) {
     res.set('Content-Type', 'text/html')
     res.render('demo.ejs')
@@ -109,12 +116,13 @@ router.get('/demo', function (req, res, next) {
 // 生成代码
 router.get('/debug_logs', function (req, res, next) {
     // 在 ejs 中，如果是使用其他格式，那么就得使用 ejs单独得引入
-    require('ejs').renderFile(path.join(__dirname, '../views/debug.js'), {
+    require('ejs').renderFile(path.join(__dirname, '../views/debug/debug.js'), {
         domainName: process.env.serverUrl
     },{
     },
     function (err, str) {
         if (err) {
+            console.log(err);
             res.send('页面读取错误')
         }else {
             res.send(str)
