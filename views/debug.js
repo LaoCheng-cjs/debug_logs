@@ -9,7 +9,8 @@
  * 
  * 1、初始化：在页面中，就有初始化地址。会尝试与服务器建立连接，生成脚本地址。
  * 2、自动生成 uid 作为用户id
- * 3、
+ * 3、 资源加载失败： img、 iframe、 script、 video、 audio、 link、 字体资源加载
+ * 4、 代码错误：vue、运行时候错误、react
  * 
  * 后台生成的代码变动的：请求接口地址。
 **/
@@ -18,6 +19,17 @@
     // 进行初始化下
     var win = window,
         debug = null,
+        domErr = { // 资源加载失败： img、 iframe 、 script、 video、 audio、 link、 字体资源加载
+            img: function (target) {
+                console.log(target, 'target');
+            },
+            script: function (target) {
+                console.log(target, 'target');
+            },
+            iframe: function () {
+
+            }
+        }
         config = {}; // 配置文件
     debug = {
         /**
@@ -42,18 +54,20 @@
                 * 
                 * 如果是对象报错还是代码报错，分两种类
                 */ 
+               console.log(event, 'event');
                 if (listenerNum-- < 0 || url) {
                     return;
                 }
-                console.log(event, 'msg');
                 console.log(url, 'url');
                 console.log(line, 'line');
                 console.log(col, 'col');
                 console.log(error, 'error');
-                console.log("Script error.", '');
+                // console.log("Script error.", '');
 
                 let target = event.target || event.srcElement;
                 let isElementTarget = target instanceof HTMLScriptElement || target instanceof HTMLLinkElement || target instanceof HTMLImageElement;
+                // 判断是否为dom对象，如果是运行后面的方法
+                isElementTarget && domErr[target.nodeName.toLocaleLowerCase()](target)
                 
 
                 return;
@@ -119,7 +133,9 @@
                 return true;
             }, true);
             // 
-
+            window.addEventListener('readystatechange',function (event) {
+                console.log(event, '1111');
+            },true)
         },
         /**
          * @abstract 切换路由时候， 就可以使用这个
@@ -141,7 +157,7 @@
     }
     // 初始化
     debug.init()
-    // 
+    // 还得做销毁 addRouterListener
     win.debugLog = debug
         // $.ajax({
         //     url: 'http://10.0.3.91:8111/api/winErr',

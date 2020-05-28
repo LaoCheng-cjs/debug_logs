@@ -101,7 +101,11 @@ router.get('/', function (req, res, next) {
     // res.send({}) 
     next()
 })
-
+router.get('/demo', function (req, res, next) {
+    res.set('Content-Type', 'text/html')
+    res.render('demo.ejs')
+    next()
+})
 // 生成代码
 router.get('/debug_logs', function (req, res, next) {
     // 在 ejs 中，如果是使用其他格式，那么就得使用 ejs单独得引入
