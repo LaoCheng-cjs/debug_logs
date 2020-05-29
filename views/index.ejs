@@ -45,94 +45,85 @@
             })
             // 请求
             function request (url) {
-                $.ajax({
-                    url: url,
-                    success(html) {
-                        var doc = iframe.contentDocument || iframe.contentWindow.document;
-                        console.dir(doc.documentElement.querySelector('body').innerHTML = html,'');
-                        // doc.documentElement.innerHTML = html
-                        // doc.documentElement.body.write(html)
-                        // console.dir(,'');
-                        // doc.write(html)
-                    }
-                })
+                var doc = iframe.contentDocument || iframe.contentWindow.document;
+                doc.location.replace(url)
             }
             // https://blog.csdn.net/dreamstone_xiaoqw/article/details/80924082
 
 
 
-            var GDispatcher = (function() {
-                var _lastPage = '',
-                _igReg = /f=(.*?)/,
-                _hReg = /\/?#.*/,
-                _xssReg = /(java|vb)script/,
-                //xss注入
-                _default = '/discover';
-                function _isIE10plus() {
-                    var _ua = window.navigator.userAgent;
-                    return (/msie\s+(.*?);/i.test(_ua) || /trident\/.+rv:([\d\.]+)/i.test(_ua)) && (parseInt(RegExp.$1) >= 10);
-                };
-                function _onHashChange(_hash) {
-                    var _url, _iframe = document.getElementById('g_iframe');
-                    if (!_hash || _igReg.test(_hash) || _xssReg.test(_hash)) { //忽略统计来源的hash
-                        _url = _default;
-                    } else {
-                        if (_hash.indexOf('/') !== 0) {
-                            _hash = '/' + _hash;
-                        }
-                        _hash = _hash.replace(/\/+/g, '/'); //#29664 http://music.163.com/#// 会死循环
-                        var _midx = -1;
-                        if ((_midx = _hash.indexOf('store/m/')) >= 0) {
-                            _url = _hash.substring(0, _midx + 8) + (_hash.substring(_midx + 8).replace('/m/', '/#/'));
-                        } else {
-                            _url = _hash.replace('/m/', '/#/');
-                            // debugger;
-                            if (/^\/member\/?(\?[\s\S]*)?$/.test(_url) && typeof vipWebCashierRedirect !== 'undefined' && '' + vipWebCashierRedirect === '1') {
-                                _url = _url.replace('/member', '/prime/member');
-                            }
-                        }
-                    }
-                    if (_url.indexOf('http://') < 0) {
-                        _url = location.protocol + '//' + location.hostname + _url;
-                    }
-                    //针对ie10+ location.replace的bug做特殊处理
-                    if (_isIE10plus()) {
-                        if (_lastPage.replace(_hReg, '') == _url.replace(_hReg, '')) { //只是hash的改变
-                            _iframe.contentWindow.location.replace(_url);
-                        } else {
-                            _iframe.parentNode.removeChild(_iframe);
-                            _iframe = document.createElement('iframe');
-                            _iframe.id = 'g_iframe';
-                            _iframe.src = 'about:blank';
-                            _iframe.className = 'g-iframe';
-                            _iframe.setAttribute('allowfullscreen', true);
-                            document.body.insertAdjacentElement('afterBegin', _iframe);
-                            _iframe.contentWindow.location.href = _url;
-                        }
-                    } else {
-                        _iframe.contentWindow.location.replace(_url);
-                    }
-                    _lastPage = _url;
-                    if (typeof window.onHashChange == 'function') {
-                        window.onHashChange(_hash);
-                    }
-                };
-                Hash.init(_onHashChange);
-                return {
-                    dispatch: function(_url, _replace) {
-                        var _ph = GUtil.getPathAndHash(_url);
-                        if (!_ph) return;
-                        if (_replace) {
-                            location.replace(GUtil.getBase() + '#' + _ph);
-                        } else {
-                            location.hash = _ph;
-                        }
-                    },
-                    refreshIFrame: function(_url) {
-                        _onHashChange(_url);
-                    }
-                };
-            })();
+            // var GDispatcher = (function() {
+            //     var _lastPage = '',
+            //     _igReg = /f=(.*?)/,
+            //     _hReg = /\/?#.*/,
+            //     _xssReg = /(java|vb)script/,
+            //     //xss注入
+            //     _default = '/discover';
+            //     function _isIE10plus() {
+            //         var _ua = window.navigator.userAgent;
+            //         return (/msie\s+(.*?);/i.test(_ua) || /trident\/.+rv:([\d\.]+)/i.test(_ua)) && (parseInt(RegExp.$1) >= 10);
+            //     };
+            //     function _onHashChange(_hash) {
+            //         var _url, _iframe = document.getElementById('g_iframe');
+            //         if (!_hash || _igReg.test(_hash) || _xssReg.test(_hash)) { //忽略统计来源的hash
+            //             _url = _default;
+            //         } else {
+            //             if (_hash.indexOf('/') !== 0) {
+            //                 _hash = '/' + _hash;
+            //             }
+            //             _hash = _hash.replace(/\/+/g, '/'); //#29664 http://music.163.com/#// 会死循环
+            //             var _midx = -1;
+            //             if ((_midx = _hash.indexOf('store/m/')) >= 0) {
+            //                 _url = _hash.substring(0, _midx + 8) + (_hash.substring(_midx + 8).replace('/m/', '/#/'));
+            //             } else {
+            //                 _url = _hash.replace('/m/', '/#/');
+            //                 // debugger;
+            //                 if (/^\/member\/?(\?[\s\S]*)?$/.test(_url) && typeof vipWebCashierRedirect !== 'undefined' && '' + vipWebCashierRedirect === '1') {
+            //                     _url = _url.replace('/member', '/prime/member');
+            //                 }
+            //             }
+            //         }
+            //         if (_url.indexOf('http://') < 0) {
+            //             _url = location.protocol + '//' + location.hostname + _url;
+            //         }
+            //         //针对ie10+ location.replace的bug做特殊处理
+            //         if (_isIE10plus()) {
+            //             if (_lastPage.replace(_hReg, '') == _url.replace(_hReg, '')) { //只是hash的改变
+            //                 _iframe.contentWindow.location.replace(_url);
+            //             } else {
+            //                 _iframe.parentNode.removeChild(_iframe);
+            //                 _iframe = document.createElement('iframe');
+            //                 _iframe.id = 'g_iframe';
+            //                 _iframe.src = 'about:blank';
+            //                 _iframe.className = 'g-iframe';
+            //                 _iframe.setAttribute('allowfullscreen', true);
+            //                 document.body.insertAdjacentElement('afterBegin', _iframe);
+            //                 _iframe.contentWindow.location.href = _url;
+            //             }
+            //         } else {
+            //             _iframe.contentWindow.location.replace(_url);
+            //         }
+            //         _lastPage = _url;
+            //         if (typeof window.onHashChange == 'function') {
+            //             window.onHashChange(_hash);
+            //         }
+            //     };
+            //     Hash.init(_onHashChange);
+            //     return {
+            //         dispatch: function(_url, _replace) {
+            //             var _ph = GUtil.getPathAndHash(_url);
+            //             if (!_ph) return;
+            //             if (_replace) {
+            //                 location.replace(GUtil.getBase() + '#' + _ph);
+            //             } else {
+            //                 location.hash = _ph;
+            //             }
+            //         },
+            //         refreshIFrame: function(_url) {
+            //             _onHashChange(_url);
+            //         }
+            //     };
+            // })();
             
         })
     </script>

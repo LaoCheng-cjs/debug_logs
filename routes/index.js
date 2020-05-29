@@ -113,9 +113,16 @@ router.get('/demo', function (req, res, next) {
     next()
 })
 
-
+// 文档
 router.get('/doc', function (req, res, next) {
     res.render('doc.ejs', {
+        url: process.env.serverUrl
+    })
+    next()
+})
+// 查看
+router.get('/see', function (req, res, next) {
+    res.render('see.ejs', {
         url: process.env.serverUrl
     })
     next()
