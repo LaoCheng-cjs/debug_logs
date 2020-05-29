@@ -78,61 +78,47 @@
     </div>
     <!-- 弹窗 -->
     <div class="toast"></div>
-    <script src="<%= url %>/js/jquery.min.js"></script>
+    <script type="text/javascript" src="<%= url %>/js/jquery.min.js"></script>
     <script src="<%= url %>/js/highlight.min.js"></script>
     <!-- 可视化 -->
     <script src="<%= url %>/js/echarts.min.js"></script>
     <script src="<%= url %>/js/javascript.min.js"></script>
     <script src="<%= url %>/js/clipboard.min.js"></script>
     <script>
-        $(function () {
-            // 初始化代码高亮
-            hljs.initHighlighting();
-            $("code").each(function () {
-                $(this).html("<ol><li>" + $(this).html().replace(/\n/g, "\n</li><li>") + "\n</li></ol>");
-            });
-            $('.minimize').click(function () {
-                $(this).parent().siblings('pre').stop().animate({height: 'toggle'})
-            })
-            $('.minimize').eq(0).parent().siblings('pre').delay(500).animate({height: 'toggle'})
-            // 绑定复制按钮
-            var clipboard = new ClipboardJS('.copy',{
-                text: function(trigger) {
-                   return $(trigger).siblings('pre').text()
-                }
-            });
-            clipboard.on('success', function(e) {
-                $('.toast').text('复制成功').show()
-                time()
-                e.clearSelection();
-            });
-            clipboard.on('error', function(e) {
-                $('.toast').text('复制失败').show()
-                time()
-                console.error('Action:', e.action);
-                console.error('Trigger:', e.trigger);
-            });
-            let timer = null;
-            function time () {
-                clearTimeout(timer)
-                timer = setTimeout(() => {
-                    $('.toast').hide()
-                },2000)
-            }
-            // $('pre code').each(function () {
-            //     var lines = $(this).text().split('\n').length - 1;
-            //     var $numbering = $('<ul/>').addClass('pre-numbering');
-            //     $(this)
-            //         .addClass('has-numbering')
-            //         .parent()
-            //         .append($numbering);
-            //     for (i = 1; i <= lines; i++) {
-            //         $numbering.append($('<li/>').text(i));
-            //     }
-            // });
-            // console.log(,'');
-            // 
+        console.log(1111111,'');
+        debugger
+        hljs.initHighlighting();
+        $("code").each(function () {
+            $(this).html("<ol><li>" + $(this).html().replace(/\n/g, "\n</li><li>") + "\n</li></ol>");
+        });
+        $('.minimize').click(function () {
+            $(this).parent().siblings('pre').stop().animate({height: 'toggle'})
         })
+        $('.minimize').eq(0).parent().siblings('pre').delay(500).animate({height: 'toggle'})
+        // 绑定复制按钮
+        var clipboard = new ClipboardJS('.copy',{
+            text: function(trigger) {
+                return $(trigger).siblings('pre').text()
+            }
+        });
+        clipboard.on('success', function(e) {
+            $('.toast').text('复制成功').show()
+            time()
+            e.clearSelection();
+        });
+        clipboard.on('error', function(e) {
+            $('.toast').text('复制失败').show()
+            time()
+            console.error('Action:', e.action);
+            console.error('Trigger:', e.trigger);
+        });
+        let timer = null;
+        function time () {
+            clearTimeout(timer)
+            timer = setTimeout(() => {
+                $('.toast').hide()
+            },2000)
+        }
     </script>
 </body>
 </html>

@@ -46,6 +46,7 @@
     overflow: hidden;
     margin: 0 3px;
     cursor: pointer;
+    line-height: 22px;
 }
 
 .ios-header .circle.coloe {
