@@ -82,7 +82,6 @@ router.all("/api/winErr", function (req, res, next) {
 router.get('/', function (req, res, next) {
     res.set('Content-Type', 'text/html')
     require('ejs').renderFile(path.join(__dirname, '../views/components/nav.ejs'),{}, function (err, str) {
-        console.log(str);
         res.render('index.ejs',{
             url: process.env.serverUrl + '/debug_logs',
             nav: str
@@ -111,6 +110,14 @@ router.get('/', function (req, res, next) {
 router.get('/demo', function (req, res, next) {
     res.set('Content-Type', 'text/html')
     res.render('demo.ejs')
+    next()
+})
+
+
+router.get('/doc', function (req, res, next) {
+    res.render('doc.ejs', {
+        url: process.env.serverUrl
+    })
     next()
 })
 // 生成代码

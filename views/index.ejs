@@ -26,10 +26,35 @@
     </div>
     <script>
         $(function () {
+            // 导航
+            $('#nav > li > a').click(function (e) {
+                $(this).siblings('ul').stop().animate({height: 'toggle'}).parent().siblings().find('ul').each((i, item) => {
+                    if(item.style.display === 'block') {
+                        $(item).animate({height: 'toggle'})
+                    }
+                })
+            })
+            var iframe = $('#g_iframe')[0]
+            // 点击
+            $('.sub-menu a').click(function (e) {
+                var that = $(this)
+                that.parents('#nav').find('a').removeClass('active');
+                that.addClass('active')
+                location.href = '#' + that.attr('data-hash')
+                request(that.attr('data-hash'))
+            })
+            // 请求
+            function request (url) {
+                $.ajax({
+                    url: url,
+                    success(html) {
+                        var doc = iframe.contentDocument || iframe.document;
+                        doc.write(html)
+                    }
+                })
+            }
             // https://blog.csdn.net/dreamstone_xiaoqw/article/details/80924082
-            // $.ajax({
-            //     url: ''
-            // })
+            
         })
     </script>
 </body>
