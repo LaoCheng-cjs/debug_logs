@@ -41,10 +41,24 @@
                 that.parents('#nav').find('a').removeClass('active');
                 that.addClass('active')
                 location.href = '#' + that.attr('data-hash')
-                request(that.attr('data-hash'))
+                leftUrl(that.attr('data-hash'))
             })
-            // 请求
-            function request (url) {
+            //  初始化查询data-hash
+            setRouter()
+            // window.addEventListener('load', this.refresh.bind(this), false);
+            window.addEventListener('hashchange', setRouter, false);
+            function setRouter () {
+                var hash = location.hash
+                hash = hash.slice(1,hash.length)
+                $('#nav a[data-hash]').each((index, item) => {
+                    if($(item).attr('data-hash') === hash) {
+                        $(item).addClass('active').parents('.sub-menu').animate({height: 'toggle'})
+                        leftUrl(hash)
+                    }
+                })
+            }
+            // 右边得地址
+            function leftUrl (url) {
                 var doc = iframe.contentDocument || iframe.contentWindow.document;
                 doc.location.replace(url)
             }

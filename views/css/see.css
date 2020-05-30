@@ -1,0 +1,24 @@
+.nav-wrap {
+    height: 40px;
+    background-color: #fff;
+    display: flex;
+    line-height: 40px;
+    border: 1px solid #eee;
+}
+.nav-wrap .nav-list {
+    padding: 0 22px;
+    border: 1px solid #eee;
+    border-top: none;
+    border-bottom: none;
+    /* border: 1px solid #eee; */
+    cursor: pointer;
+}
+.nav-wrap .nav-list.active {
+    background-color: #333;
+    color: #fff;
+}
+/* 重置下时间插件定位到顶部了 */
+.calendar_show {
+    top: initial !important;
+    box-shadow: 0 0 10px #000;
+}
