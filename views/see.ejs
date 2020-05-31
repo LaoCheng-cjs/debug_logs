@@ -27,6 +27,9 @@
     <script src="<%= url %>/js/china.js"></script>
     <!-- china.js -->
     <script>
+        if (self == top) { 
+            location.href = '/';
+        }
         $(function () {
             var dom = document.getElementById("container");
             var myChart = echarts.init(dom); 

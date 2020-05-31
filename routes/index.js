@@ -120,6 +120,17 @@ router.get('/doc', function (req, res, next) {
     })
     next()
 })
+
+// 介绍页面
+router.get('/introduce', function (req, res, next) {
+    res.render('introduce.ejs')
+    next()
+})
+// 关于我们页面
+router.get('/about', function (req, res, next) {
+    res.render('about.ejs')
+    next()
+})
 // 查看
 router.get('/see', function (req, res, next) {
     res.render('see.ejs', {

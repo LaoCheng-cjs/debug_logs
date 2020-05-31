@@ -26,7 +26,14 @@
     </div>
     <script>
         $(function () {
-            // 导航
+            /**
+             * 导航部分逻辑：
+             *  1、当点击导航禁止路由监听
+             *  2、当第一次进入的时候，掉监听的方法。
+             * 
+            */
+            var clickFlag = false,
+                oldHash = ''
             $('#nav > li > a').click(function (e) {
                 $(this).siblings('ul').stop().animate({height: 'toggle'}).parent().siblings().find('ul').each((i, item) => {
                     if(item.style.display === 'block') {
@@ -37,23 +44,62 @@
             var iframe = $('#g_iframe')[0]
             // 点击
             $('.sub-menu a').click(function (e) {
+                clickFlag = true
                 var that = $(this)
-                that.parents('#nav').find('a').removeClass('active');
+                 that.parents('#nav').find('a[data-hash]').removeClass('active');
                 that.addClass('active')
-                location.href = '#' + that.attr('data-hash')
-                leftUrl(that.attr('data-hash'))
+                let hash = that.attr('data-hash')
+                // 重复选择的都不能进行选择
+                if(oldHash == hash) {
+                    return;
+                }
+                oldHash = hash
+                location.href = '#' + hash
+                leftUrl(hash)
             })
             //  初始化查询data-hash
-            setRouter()
-            // window.addEventListener('load', this.refresh.bind(this), false);
+            setRouter(true)
             window.addEventListener('hashchange', setRouter, false);
-            function setRouter () {
+            function setRouter (flag) {
+                // 如果是点击的话，就不能再进去
+                if(clickFlag) {
+                    clickFlag = false
+                   return; 
+                }
                 var hash = location.hash
-                hash = hash.slice(1,hash.length)
-                $('#nav a[data-hash]').each((index, item) => {
+                hash = hash.slice(1,hash.length) // 去除 # 号
+                // 如果上面带有参数的话，那么就得截取下
+                let index = hash.indexOf('?')
+                if(index != -1) {
+                    hash = hash.slice(0,index)
+                }
+                var allADom = $('#nav a[data-hash]'),
+                    len = allADom.length
+                allADom.each((index, item) => {
                     if($(item).attr('data-hash') === hash) {
-                        $(item).addClass('active').parents('.sub-menu').animate({height: 'toggle'})
-                        leftUrl(hash)
+                        oldHash = hash
+                        // 如果是刷新或者第一次进来的话，那么就咱选择某个选中hash值
+                        if(flag === true) {
+                            $(item).addClass('active').parents('.sub-menu').animate({height: 'toggle'})
+                        }else {
+                            // 判断当前的是否为blok
+                            allADom.removeClass('active')
+                            var menu = $(item).addClass('active').parents('.sub-menu')
+                            if(menu[0].style.display === 'block') {
+                                menu.siblings().find('ul').each((i, item) => {
+                                    if(item.style.display === 'block') {
+                                        $(item).animate({height: 'toggle'})
+                                    }
+                                })
+                            }else {
+                                menu.animate({height: 'toggle'})
+                            }
+                        }
+                        leftUrl(hash);
+                        // 跳出循环
+                        return false;
+                    }else if(len-1 === index){ // 最后一个都没有找到，返回首页
+                        location.href = '#introduce'
                     }
                 })
             }

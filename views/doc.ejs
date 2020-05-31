@@ -83,6 +83,9 @@
     <script src="<%= url %>/js/javascript.min.js"></script>
     <script src="<%= url %>/js/clipboard.min.js"></script>
     <script>
+        if (self == top) { 
+            location.href = '/';
+        }
         $(function () {
             hljs.initHighlighting();
             $("code").each(function () {
