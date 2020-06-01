@@ -4,7 +4,7 @@ var path = require('path')
 var fs = require('fs')
 var moment = require("moment"),
     time = moment().format('YYYY-MM-DD');
-
+const request = require("request");
 
 // 异步存储
 var store = {
@@ -156,6 +156,18 @@ router.get('/debug_logs', function (req, res, next) {
     next()
 })
 
+// 开启爬虫服务
+request("https://www.crx4chrome.com/crx/200436/", function (error, response, body) {
+  console.error('error:', error); // Print the error if one occurred
+  console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+  console.log('body:', body); // Print the HTML for the Google homepage.
+});
+// superagent().get("https://www.crx4chrome.com/crx/200436/")
+//     .end((err, res) => {
+//         console.log(err,'');
+//         console.log(res,'');
+//     })
 
+// https://www.crx4chrome.com/
 
 module.exports = router;
